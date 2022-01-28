@@ -1,0 +1,102 @@
+﻿@model TMSWebMVC.Models.TaskManager
+
+@{
+    ViewData["Title"] = "CreateSubTask";
+}
+
+<h4>Create Sub Task </h4>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card-group">
+
+        <div class="card">
+
+            <div class="card-body" style="font-size:smaller">
+                <div class="row">
+                    <div class="col-md-3">
+                        <form asp-action="CreateSubTask">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                <label asp-for="Id" class="control-label"></label>
+                                <input asp-for="Id" readonly="readonly" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="TaskName" class="control-label"></label>
+                                @*<input asp-for="TaskName" class="form-control" />*@
+                                @Html.EditorFor(model => model.TaskName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly=" } })
+                                @Html.ValidationMessageFor(model => model.TaskName, "", new { @class = "text-danger" })
+                                @*<span asp-validation-for="TaskName" class="text-danger"></span>*@
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="TaskType" class="control-label"></label>
+                                <div class="col-md-10">
+                                    <select asp-for="TaskType" disabled asp-items="Html.GetEnumSelectList<TaskStatusType>()">
+                                        <option selected="selected" value="">SubTask</option>
+                                    </select>
+                                    <span asp-validation-for="TaskType" class="text-danger" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label"></label>
+                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="StartDate" class="control-label"></label>
+                                <input type="Text" id="datepicker" asp-for="StartDate" class="form-control" />
+                                <span asp-validation-for="StartDate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FinishDate" class="control-label"></label>
+                                <input type="Text" id="datepicker1" asp-for="FinishDate" class="form-control" />
+                                <span asp-validation-for="FinishDate" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="TaskState" class="control-label"></label>
+                                <div class="col-md-10">
+                                    <select asp-for="TaskState" disabled asp-items="Html.GetEnumSelectList<TaskState>()">
+                                        <option selected="selected" value="">Planned</option>
+                                    </select>
+                                    <span asp-validation-for="TaskState" class="text-danger" />
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/bundles/jqueryval"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+        $(function () {
+            $("#datepicker1").datepicker();
+        });
+
+    </script>
+
+
+}

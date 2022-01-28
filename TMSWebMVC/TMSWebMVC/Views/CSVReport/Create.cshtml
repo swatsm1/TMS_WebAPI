@@ -1,0 +1,72 @@
+﻿@model TMSWebMVC.Models.TaskManager
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Create a Formatted Report in .CSV Format</h4>
+
+<h6>Please enter a date range</h6>
+<hr />
+<div class="card-group">
+
+    <div class="card">
+
+        <div class="card-body" style="font-size:smaller">
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+              
+                        <div class="form-group">
+                            <label asp-for="StartDate" class="control-label"></label>
+                            <input type="Text" id="datepicker" asp-for="StartDate" class="form-control" />
+                            <span asp-validation-for="StartDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="FinishDate" class="control-label"></label>
+                            <input type="Text" id="datepicker1" asp-for="FinishDate" class="form-control" />
+                            <span asp-validation-for="FinishDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+
+        @if (TempData["Report"] != null)
+        {
+            var errors = TempData["Report"] as List<string>;
+            <div class="card-body" style="font-size:smaller">
+
+                @TempData["Report"]
+
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/bundles/jqueryval"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+        $(function () {
+            $("#datepicker1").datepicker();
+        });
+
+    </script>
+
+
+}

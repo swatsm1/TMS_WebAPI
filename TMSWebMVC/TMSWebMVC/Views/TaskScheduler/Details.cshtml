@@ -1,0 +1,354 @@
+﻿@model TMSWebMVC.Models.TaskManagerViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h4>Task Details</h4>
+
+@{ int subtaskcount = 0;
+} 
+
+<div class="card-group">
+
+    <div class="card">
+
+        <div class="card-body" style="font-size:smaller">
+            @{
+                if (Model.Parent == false)
+                {
+                    <h6 class="card-subtitle mb-2 text-muted">Sub Task</h6>
+
+                }
+                else
+
+                {
+                    <h6 class="card-subtitle mb-2 text-muted">Parent Task</h6>
+                }
+
+            }
+            <table class="table table-bordered table-striped table-sm">
+
+                <tbody>
+                    <tr>
+                        <th scope="row"> @Html.DisplayNameFor(model => model.ParentTask.Id) </th>
+                        <td>@Html.DisplayFor(model => model.ParentTask.Id)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"> @Html.DisplayNameFor(model => model.ParentTask.TaskName) </th>
+                        <td>@Html.DisplayFor(model => model.ParentTask.TaskName)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"> @Html.DisplayNameFor(model => model.ParentTask.TaskType) </th>
+                        <td>@Html.DisplayFor(model => model.ParentTask.TaskType)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"> @Html.DisplayNameFor(model => model.ParentTask.Description) </th>
+                        <td>@Html.DisplayFor(model => model.ParentTask.Description)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"> @Html.DisplayNameFor(model => model.ParentTask.StartDate) </th>
+                        <td>@Html.DisplayFor(model => model.ParentTask.StartDate)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"> @Html.DisplayNameFor(model => model.ParentTask.FinishDate) </th>
+                        <td>@Html.DisplayFor(model => model.ParentTask.FinishDate)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"> @Html.DisplayNameFor(model => model.ParentTask.TaskState) </th>
+                        <td>@Html.DisplayFor(model => model.ParentTask.TaskState)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @{
+        if (Model.ParentTask.TaskType == TaskStatusType.Task)
+        {
+            foreach (var item in Model.SubTasks)
+            {
+                if (item.TaskType == TaskStatusType.SubTask)
+                {
+                    subtaskcount += 1;
+                }
+            }
+
+
+
+            if (subtaskcount == 0)
+            {
+                <div class="card">
+                    <div class="card-body" style="font-size:x-small"><h6 class="card-subtitle mb-2 text-muted">No Subtasks</h6></div>
+                 </div>
+                
+
+            }
+            else
+            {
+                <div class="card">
+
+                    <div class="card-body" style="font-size:x-small">
+                        @{
+                            if (Model.ParentTask.TaskType == TaskStatusType.Task)
+                            {
+                                <h6 class="card-subtitle mb-2 text-muted">Sub Task</h6>
+
+                            }
+                            else
+
+                            {
+                                <h6 class="card-subtitle mb-2 text-muted">Parent Task</h6>
+                            }
+
+                        }
+
+
+
+
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SubTasks[0].Id)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SubTasks[0].ParentId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SubTasks[0].TaskName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SubTasks[0].TaskType)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SubTasks[0].Description)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SubTasks[0].StartDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SubTasks[0].FinishDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SubTasks[0].TaskState)
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.SubTasks)
+                                {
+
+                                    if (Model.ParentTask.TaskType == TaskStatusType.SubTask)
+                                    {
+                                        if (item.TaskType == TaskStatusType.Task)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Id)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ParentId)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TaskName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TaskType)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Description)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.StartDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.FinishDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TaskState)
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        if (item.TaskType == TaskStatusType.SubTask)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Id)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ParentId)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TaskName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TaskType)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Description)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.StartDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.FinishDate)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.TaskState)
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            }
+        }
+        else
+        {
+            <div class="card">
+
+                <div class="card-body" style="font-size:x-small">
+                    @{
+                        if (Model.ParentTask.TaskType == TaskStatusType.Task)
+                        {
+                            <h6 class="card-subtitle mb-2 text-muted">Sub Task</h6>
+
+                        }
+                        else
+
+                        {
+                            <h6 class="card-subtitle mb-2 text-muted">Parent Task</h6>
+                        }
+
+                    }
+
+
+
+
+                    <table class="table table-bordered table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SubTasks[0].Id)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SubTasks[0].ParentId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SubTasks[0].TaskName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SubTasks[0].TaskType)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SubTasks[0].Description)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SubTasks[0].StartDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SubTasks[0].FinishDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SubTasks[0].TaskState)
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.SubTask.Id)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.SubTask.ParentId)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.SubTask.TaskName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.SubTask.TaskType)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.SubTask.Description)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.SubTask.StartDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.SubTask.FinishDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.SubTask.TaskState)
+                                            </td>
+
+                                        </tr>
+                                
+                                        @*<tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.ParentTask.Id)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.ParentTask.ParentId)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.ParentTask.TaskName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.ParentTask.TaskType)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.ParentTask.Description)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.ParentTask.StartDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.ParentTask.FinishDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.ParentTask.TaskState)
+                                            </td>
+
+                                        </tr>*@
+                              
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        }
+    }
+
+</div>
+       
+<div>
+    @if (Model.ParentTask.TaskType == TaskStatusType.SubTask)
+    {
+    
+    }
+    else
+
+    {
+    @Html.ActionLink("Create Sub Task", "CreateSubTask", new { id = Model.ParentTask.Id, taskname = Model.ParentTask.TaskName }, new { @class = "btn btn-primary btn-sm" })
+
+    }
+
+
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ParentTask.Id }, new { @class = "btn btn-primary btn-sm" })
+    <a asp-action="Index">Back to List</a>
+</div>
